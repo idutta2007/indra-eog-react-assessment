@@ -17,16 +17,16 @@ query ($input: [MeasurementQuery]) {
 export const createQueryVariables = (metricList: any[]): any => {
     const input: any[] = []
 
-    // Get staring at 8am today
+    // Get data from lat hour
     const date = new Date();
-    date.setHours(8)
+    date.setHours(date.getHours() - 1)
     date.setMinutes(0)
     date.setSeconds(0)
     date.setMilliseconds(0)
     const currentTime = date.getTime()
     
     const list = metricList || []
-    metricList.forEach( (m:any) => {
+    list.forEach( (m:any) => {
         input.push({metricName: m.value, after: currentTime})
     })
     return { input }

@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type MeasurementOption = {
     value: string;
     label: string;
+    color: string
 };
 
 export type Measurement = {
