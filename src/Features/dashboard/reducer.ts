@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type MeasurementOption = {
     value: string;
     label: string;
-    color: string
 };
 
 export type Measurement = {
@@ -20,7 +19,6 @@ export type MeasurementApiError = {
 const initialState = {
     latestValues: {} as {[key:string]: any},
     metricOptions: [] as MeasurementOption[],
-    metricData: {} as any
 };
 
 const slice = createSlice({
@@ -31,7 +29,7 @@ const slice = createSlice({
             state.metricOptions = action.payload
         },
 
-        latestValueRecived: (state, action: PayloadAction<Measurement>) =>{
+        latestValueReceived: (state, action: PayloadAction<Measurement>) =>{
             state.latestValues[action.payload.metric] = {
                 value: action.payload.value,
                 unit: action.payload.unit

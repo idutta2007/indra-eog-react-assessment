@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { MeasurementOption, actions } from './reducer';
 
 const options: MeasurementOption[]  = [
-    { value: 'flareTemp', label: 'Flare Temp', color: "red" },
-    { value: 'waterTemp', label: 'Water Temp', color: "blue" },
-    { value: 'casingPressure', label: 'Casing Pressure', color: "olive" },
-    { value: 'oilTemp', label: 'Oil Temp', color: "purple" },
-    { value: 'tubingPressure', label: 'Tubing Pressure', color: "green" },
-    { value: 'injValveOpen', label: 'Inj Valve Open', color: "black" },
+    { value: 'flareTemp', label: 'Flare Temp' },
+    { value: 'waterTemp', label: 'Water Temp' },
+    { value: 'casingPressure', label: 'Casing Pressure'},
+    { value: 'oilTemp', label: 'Oil Temp' },
+    { value: 'tubingPressure', label: 'Tubing Pressure'},
+    { value: 'injValveOpen', label: 'Inj Valve Open' },
   ]
   
   const MetricSelect = (props: any) => {

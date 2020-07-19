@@ -4,26 +4,26 @@ import { IState } from '../../store';
 import { useQuery } from 'urql';
 import { query, createQueryVariables } from '../../api/DashboardQuery';
 import { LineChart, XAxis,YAxis, Line, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import { actions } from './reducer';
+import { metricDisplayConfig } from './MetricDisplayConfig';
 
-export interface PlotContainerProps {
-}
+const useStyles = makeStyles({
+    root: {
+        height: '75vh',
+        minHeight: '200px',
+    },
+});
 
-const getDashboard = (state: IState) => {
+const storeDataSelector = (state: IState) => {
     return {
         metricOptions: state.dashboard.metricOptions,
-        metricData: state.dashboard.metricData
     };
 };
 
 const createTimeLabel = (ms: number)=>{
-    const m = moment(ms)
-    if ( m.minute() % 10 === 0 ){
-        return m.format('hh:mm a')
-    }
-    return m.format('hh:mm a')
+    return moment(ms).format('h:mm a')
 }
 
 const createPlotData = (data: any)=>{
@@ -54,10 +54,12 @@ const createPlotData = (data: any)=>{
     return plotData
 }
 
-const PlotContainer: React.SFC<PlotContainerProps> = () => {
+const PlotContainer: React.FC = () => {
+    const classes = useStyles();
+
     const dispatch = useDispatch();
 
-    const { metricOptions } = useSelector(getDashboard)
+    const { metricOptions } = useSelector(storeDataSelector)
 
     const [result] = useQuery({
         query,
@@ -78,14 +80,14 @@ const PlotContainer: React.SFC<PlotContainerProps> = () => {
     const plotData = createPlotData( data )
 
     return (
-        <div style={{height:'500px'}}>
+        <div className={classes.root}>
             <ResponsiveContainer width='100%' height="100%">
                 <LineChart 
                   margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
                   data={plotData}>
                     <Legend />
                     <Tooltip />
-                    <XAxis dataKey="timeLabel" interval="preserveEnd"/>
+                    <XAxis dataKey="timeLabel" interval={465}/>
                     {metricOptions.map( option=>(
                         <YAxis 
                             key={option.value}
@@ -100,7 +102,7 @@ const PlotContainer: React.SFC<PlotContainerProps> = () => {
                            yAxisId={option.value}
                            type="monotone" 
                            dataKey={option.value} 
-                           stroke={option.color} 
+                           stroke={metricDisplayConfig[option.value].color} 
                            dot={false} 
                            activeDot={true}/>
                     ))}

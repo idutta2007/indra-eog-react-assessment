@@ -12,6 +12,7 @@ const useStyles = makeStyles({
         height: '5em',
         width: 'auto',
         padding: '1ex',
+        borderRadius: '5px'
     },
 });
 

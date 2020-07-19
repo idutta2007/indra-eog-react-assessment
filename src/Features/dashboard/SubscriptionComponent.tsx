@@ -17,9 +17,9 @@ const SubscriptionComponent: FC = () => {
     if ( res && res.data ){
         const data: {[key:string]: any} = res.data;
         const meas = data.newMeasurement
-        dispatch(actions.latestValueRecived(meas))
+        
+        dispatch(actions.latestValueReceived(meas))
     }
-    
     return (<span></span>);
 }
 
