@@ -6,8 +6,8 @@ import { IState } from '../../store';
 
 const options: MeasurementOption[]  = [
     { value: 'flareTemp', label: 'Flare Temp', color: "red" },
-    { value: 'waterTemp', label: 'Water Temp', color: "pink" },
-    { value: 'casingPressure', label: 'Casing Pressure', color: "yellow" },
+    { value: 'waterTemp', label: 'Water Temp', color: "blue" },
+    { value: 'casingPressure', label: 'Casing Pressure', color: "olive" },
     { value: 'oilTemp', label: 'Oil Temp', color: "purple" },
     { value: 'tubingPressure', label: 'Tubing Pressure', color: "green" },
     { value: 'injValveOpen', label: 'Inj Valve Open', color: "black" },

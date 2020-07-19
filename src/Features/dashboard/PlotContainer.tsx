@@ -17,12 +17,20 @@ const getDashboard = (state: IState) => {
     };
 };
 
+const createTimeLabel = (ms: number)=>{
+    const m = moment(ms)
+    if ( m.minute() % 10 == 0 ){
+        return m.format('hh:mm a')
+    }
+    return m.format('hh:mm a')
+}
+
 const createPlotData = (data: any)=>{
     const plotData: any[] = []
     data.getMultipleMeasurements.forEach( (metricMeas: any) => {
         metricMeas.measurements.forEach( (meas:any) => {
             const point = plotData.find( x => x.at == meas.at )
-            const timeLabel = moment(meas.at).format('hh:mm a')
+            const timeLabel = createTimeLabel(meas.at)
             if ( point ){
                 point[metricMeas.metric] = meas.value
                 point['timeLabel'] = timeLabel
@@ -36,11 +44,16 @@ const createPlotData = (data: any)=>{
             }
         });
     });
+    
+    // Inset date label
+    if ( plotData.length > 0 ){
+        const lastPoint = plotData[plotData.length-1]
+        lastPoint.timeLabel = moment(lastPoint.at).format('MMM DD, y')
+    }
     return plotData
 }
 
 const PlotContainer: React.SFC<PlotContainerProps> = () => {
-    const dispatch = useDispatch();
     const { metricOptions, metricData } = useSelector(getDashboard)
 
     const [result] = useQuery({
@@ -65,13 +78,19 @@ const PlotContainer: React.SFC<PlotContainerProps> = () => {
                   data={plotData}>
                     <Legend />
                     <Tooltip />
-                    <XAxis dataKey="timeLabel" interval={500}/>
+                    <XAxis dataKey="timeLabel" interval="preserveEnd"/>
                     {metricOptions.map( option=>(
-                        <YAxis key={option.value} dataKey={option.value}/>
+                        <YAxis 
+                            key={option.value}
+                            yAxisId={option.value}
+                            dataKey={option.value}
+                            label={{ value: option.label, angle: -90, position: 'insideRight', offset: 10 }}
+                        />
                     ))}
                     {metricOptions.map( option=>(
                         <Line 
-                           key={option.value} 
+                           key={option.value}
+                           yAxisId={option.value}
                            type="monotone" 
                            dataKey={option.value} 
                            stroke={option.color} 

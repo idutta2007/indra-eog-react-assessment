@@ -19,15 +19,13 @@ export const createQueryVariables = (metricList: any[]): any => {
 
     // Get data from lat hour
     const date = new Date();
-    date.setHours(date.getHours() - 1)
-    date.setMinutes(0)
-    date.setSeconds(0)
-    date.setMilliseconds(0)
-    const currentTime = date.getTime()
-    
+    let startTime = date.getTime() - (1 * 65 * 60 * 1000);
+    const fiveMinDuration = 1000 * 60 * 5;
+    startTime = new Date(Math.round(startTime / fiveMinDuration) * fiveMinDuration).getTime();
+
     const list = metricList || []
     list.forEach( (m:any) => {
-        input.push({metricName: m.value, after: currentTime})
+        input.push({metricName: m.value, after: startTime})
     })
     return { input }
 }
