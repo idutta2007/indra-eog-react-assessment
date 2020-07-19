@@ -30,14 +30,6 @@ const getWeather = (state: IState) => {
   };
 };
 
-export default () => {
-  return (
-    <Provider value={client}>
-      <Weather />
-    </Provider>
-  );
-};
-
 const Weather = () => {
   const getLocation = useGeolocation();
   // Default to houston
@@ -69,3 +61,5 @@ const Weather = () => {
 
   return <Chip label={`Weather in ${locationName}: ${description} and ${temperatureinFahrenheit}°`} />;
 };
+
+export default Weather
