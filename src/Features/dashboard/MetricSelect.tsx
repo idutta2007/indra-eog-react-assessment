@@ -22,6 +22,7 @@ const options: MeasurementOption[]  = [
     return (
     <Select 
        aria-label="Select a metric"
+       placeholder="Select one or more metric ..."
        isMulti
        options={options}
        onChange={handleMetricListChange}
