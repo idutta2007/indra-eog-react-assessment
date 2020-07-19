@@ -1,13 +1,21 @@
 import * as React from 'react';
 import MetricSelect from './MetricSelect';
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import MetricLabelContainer from './MetricLabelContainer';
 import PlotContainer from './PlotContainer';
 import SubscriptionComponent from './SubscriptionComponent';
   
+const useStyles = makeStyles({
+    root: {
+        padding: '1em',
+    },
+});
+
 const Dashboard = (props: any) => {
+    const classes = useStyles();
+
     return (
-        <div style={{padding:'1em'}}>
+        <div className={classes.root}>
             <Grid container>
             <Grid item xs={8}>
                     <MetricLabelContainer/>

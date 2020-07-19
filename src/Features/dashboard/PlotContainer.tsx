@@ -8,6 +8,9 @@ import { LinearProgress, makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import { actions } from './reducer';
 import { metricDisplayConfig } from './MetricDisplayConfig';
+import { useEffect } from 'react';
+import ErrorMessage from "../../components/ErrorMessage"
+import InstructionMessage from '../../components/InstructionMessage';
 
 const useStyles = makeStyles({
     root: {
@@ -66,17 +69,36 @@ const PlotContainer: React.FC = () => {
         variables:createQueryVariables( metricOptions )
     });
     const { fetching, data, error } = result;
+    
+    useEffect(() => {
+        if ( error ) {
+            dispatch( actions.fectchMetricDataError({error: error.message}))
+        }
+    });
 
+    // Display a message if nothing is selected
+    if ( metricOptions.length === 0 ){
+        return <InstructionMessage>Please select one or more options from the list above</InstructionMessage>
+    }
+
+    // If fetching show a progress bar
     if ( fetching ) return <LinearProgress/>
 
-    if ( error ) {
-        dispatch( actions.fectchMetricDataError({error: error.message}))
-        return <div></div>
+    // Show an error in case query returned an error
+    if ( error ){
+        return (
+             <ErrorMessage>
+                There was an error connecting to network. Please check your network connection and refresh this page.
+            </ErrorMessage>
+        )
     }
 
+    // If no data was returned display a message
     if ( !data || !data.getMultipleMeasurements || data.getMultipleMeasurements.length === 0 ){
-        return <div></div>
+        return <div>No data was returned from server</div>
     }
+
+    // Otherwise plot the data
     const plotData = createPlotData( data )
 
     return (

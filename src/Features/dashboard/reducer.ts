@@ -37,6 +37,7 @@ const slice = createSlice({
         },
 
         fectchMetricDataError: (state, action:PayloadAction<MeasurementApiError>) =>{
+            return state
         }
     }
 });
