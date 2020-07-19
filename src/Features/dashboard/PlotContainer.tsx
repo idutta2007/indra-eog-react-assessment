@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IState } from '../../store';
 import { useQuery } from 'urql';
 import { query, createQueryVariables } from '../../api/DashboardQuery';
-import { LineChart, XAxis,YAxis, CartesianGrid, Line, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { LineChart, XAxis,YAxis, Line, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { LinearProgress } from '@material-ui/core';
 import moment from 'moment';
+import { actions } from './reducer';
 
 export interface PlotContainerProps {
 }
@@ -19,7 +20,7 @@ const getDashboard = (state: IState) => {
 
 const createTimeLabel = (ms: number)=>{
     const m = moment(ms)
-    if ( m.minute() % 10 == 0 ){
+    if ( m.minute() % 10 === 0 ){
         return m.format('hh:mm a')
     }
     return m.format('hh:mm a')
@@ -29,7 +30,7 @@ const createPlotData = (data: any)=>{
     const plotData: any[] = []
     data.getMultipleMeasurements.forEach( (metricMeas: any) => {
         metricMeas.measurements.forEach( (meas:any) => {
-            const point = plotData.find( x => x.at == meas.at )
+            const point = plotData.find( x => x.at === meas.at )
             const timeLabel = createTimeLabel(meas.at)
             if ( point ){
                 point[metricMeas.metric] = meas.value
@@ -54,7 +55,9 @@ const createPlotData = (data: any)=>{
 }
 
 const PlotContainer: React.SFC<PlotContainerProps> = () => {
-    const { metricOptions, metricData } = useSelector(getDashboard)
+    const dispatch = useDispatch();
+
+    const { metricOptions } = useSelector(getDashboard)
 
     const [result] = useQuery({
         query,
@@ -63,12 +66,16 @@ const PlotContainer: React.SFC<PlotContainerProps> = () => {
     const { fetching, data, error } = result;
 
     if ( fetching ) return <LinearProgress/>
-    if ( error ) return <div>Error</div>
-    if ( !data || !data.getMultipleMeasurements || data.getMultipleMeasurements.length == 0 ){
-        return <div>No data received</div>
+
+    if ( error ) {
+        dispatch( actions.fectchMetricDataError({error: error.message}))
+        return <div></div>
+    }
+
+    if ( !data || !data.getMultipleMeasurements || data.getMultipleMeasurements.length === 0 ){
+        return <div></div>
     }
     const plotData = createPlotData( data )
-    console.log(plotData)
 
     return (
         <div style={{height:'500px'}}>

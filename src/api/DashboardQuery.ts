@@ -1,5 +1,3 @@
-import { createClient, useQuery } from "urql";
-
 export const query = `
 query ($input: [MeasurementQuery]) {
   getMultipleMeasurements(input: $input) {

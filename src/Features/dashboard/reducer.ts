@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { assertInputObjectType } from 'graphql';
 
 export type MeasurementOption = {
     value: string;
@@ -19,7 +18,7 @@ export type MeasurementApiError = {
 };
 
 const initialState = {
-    latestValues: {} as {[key:string]: number},
+    latestValues: {} as {[key:string]: any},
     metricOptions: [] as MeasurementOption[],
     metricData: {} as any
 };
@@ -33,7 +32,10 @@ const slice = createSlice({
         },
 
         latestValueRecived: (state, action: PayloadAction<Measurement>) =>{
-            state.latestValues[action.payload.metric] = action.payload.value
+            state.latestValues[action.payload.metric] = {
+                value: action.payload.value,
+                unit: action.payload.unit
+            }
         },
 
         fectchMetricDataError: (state, action:PayloadAction<MeasurementApiError>) =>{

@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Select from 'react-select'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { MeasurementOption, actions } from './reducer';
-import { IState } from '../../store';
 
 const options: MeasurementOption[]  = [
     { value: 'flareTemp', label: 'Flare Temp', color: "red" },

@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from './reducer';
-import { Provider, createClient, useQuery } from 'urql';
+import { useQuery } from 'urql';
 import { useGeolocation } from 'react-use';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Chip from '../../components/Chip';
 import { IState } from '../../store';
-
-const client = createClient({
-  url: 'https://react.eogresources.com/graphql',
-});
 
 const query = `
 query($latLong: WeatherQuery!) {
