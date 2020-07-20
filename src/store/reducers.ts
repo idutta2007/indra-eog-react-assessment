@@ -1,5 +1,5 @@
 import { reducer as weatherReducer } from '../Features/Weather/reducer';
-import { reducer as dashboardReducer } from '../Features/Dashboard/reducer';
+import { reducer as dashboardReducer } from '../Features/dashboard/reducer';
 import { combineReducers } from '@reduxjs/toolkit'
 
 const rootReducer = combineReducers({
