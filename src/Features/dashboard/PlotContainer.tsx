@@ -77,7 +77,7 @@ const PlotContainer: React.FC = () => {
     });
 
     // Display a message if nothing is selected
-    if ( metricOptions.length === 0 ){
+    if ( !metricOptions || metricOptions.length === 0 ){
         return <InstructionMessage>Please select one or more options from the list above</InstructionMessage>
     }
 
