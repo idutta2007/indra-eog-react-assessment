@@ -9,7 +9,7 @@ import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import NowWhat from './components/NowWhat';
 import { Route, Switch, Link} from 'react-router-dom'
-import Dashboard from './Features/Dashboard/Dashboard';
+import Dashboard from './Features/dashboard/Dashboard';
 import { Button, Container } from '@material-ui/core';
 import { Provider as UrqlProvider, createClient, defaultExchanges, subscriptionExchange } from 'urql';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
